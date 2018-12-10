@@ -4,7 +4,7 @@
 
 ## Introduction
 
-This is a raw set of imported [daily S&P500 CSV data from Yahoo Finance](https://finance.yahoo.com/quote/%5EGSPC/history?guccounter=1) converted to MySQL and sqlite formats.
+This is a raw set of imported [daily S&P500 CSV data from Yahoo Finance](https://finance.yahoo.com/quote/%5EGSPC/history?guccounter=1) converted to MySQL and sqlite formats.  The data is daily open, close, high, low and volume since 11, December 1950.
 
 ### Why?
 
