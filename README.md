@@ -58,4 +58,15 @@ where date >= '2018-01-01'
 order by Range desc
 limit 10;
 ```
+
+### Get the previous opens in a given range
+
+```
+select date, Volume / 1000000, round(Low) Low, round(High) High, round(Open) Open, round(Close) Close, 
+round(High - Low) Range, round(High-Open) Up, round(Open-Low) Down, round(Open-Close) Fell
+from sp500 
+where Open between '2615' and '2650' 
+and date >= '2010-01-01'
+order by Date desc;
+```
 --
