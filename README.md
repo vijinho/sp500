@@ -49,4 +49,13 @@ select min(Low) Lowest, max(High) Highest, min(Open), max(Open), min(Close), max
 from sp500 where date >= '2018-11-01'  and date < '2018-12-01';
 ```
 
+### Get the Top-10 days with the biggest range between high and low
+
+```
+select date, Volume, round(Low) Low, round(High) High, round(Open) Open, round(Close) Close, round(High - Low) Range, round(High-Open) Up, round(Open-Low) Down
+from sp500 
+where date >= '2018-01-01' 
+order by Range desc
+limit 10;
+```
 --
