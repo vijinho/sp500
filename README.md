@@ -45,28 +45,55 @@ select * from sp500 where date >= '2018-11-01' order by date;
 ### Get min/max open, close, low and high for date range
 
 ```
-select min(Low) Lowest, max(High) Highest, min(Open), max(Open), min(Close), max(Close)
-from sp500 where date >= '2018-11-01'  and date < '2018-12-01';
+SELECT 
+	ROUND(MIN(Low)) Lowest, 
+	ROUND(MAX(High)) Highest, 
+	ROUND(MIN(`Open`)) `Open Min`, 
+	ROUND(MIN(`Close`)) `Close Min`, 
+	ROUND(MAX(`Open`)) `Open Max`, 
+	ROUND(MAX(`Close`)) `Close Max`,
+	ROUND(AVG(`Open`)) `Open Avg`, 
+	ROUND(AVG(`Close`)) `Close Avg`
+FROM sp500 
+WHERE 
+DATE BETWEEN '2018-01-01' AND '2018-12-01';
 ```
 
 ### Get the Top-10 days with the biggest range between high and low
 
 ```
-select date, Volume, round(Low) Low, round(High) High, round(Open) Open, round(Close) Close, round(High - Low) Range, round(High-Open) Up, round(Open-Low) Down
-from sp500 
-where date >= '2018-01-01' 
-order by Range desc
-limit 10;
+SELECT `Date`, 
+	Volume / 1000000 Volume, 
+	round(Low) Low, 
+	round(High) High, 
+	round(`Open`) `Open`, 
+	round(`Close`) `Close`, 
+	round(High - Low) `Range`, 
+	round(High - `Open`) Up, 
+	round(`Open` - Low) Down, 
+	round(`Open` - `Close`) Fell
+FROM sp500 
+WHERE `Date` >= '2010-01-01'
+ORDER BY `Date` DESC
+LIMIT 10;
 ```
 
 ### Get the previous opens in a given range
 
 ```
-select date, Volume / 1000000, round(Low) Low, round(High) High, round(Open) Open, round(Close) Close, 
-round(High - Low) Range, round(High-Open) Up, round(Open-Low) Down, round(Open-Close) Fell
-from sp500 
-where Open between '2615' and '2650' 
-and date >= '2010-01-01'
-order by Date desc;
+SELECT `Date`, 
+	Volume / 1000000 Volume, 
+	round(Low) Low, 
+	round(High) High, 
+	round(`Open`) `Open`, 
+	round(`Close`) `Close`, 
+	round(High - Low) `Range`, 
+	round(High - `Open`) Up, 
+	round(`Open` - Low) Down, 
+	round(`Open` - `Close`) Fell
+FROM sp500 
+WHERE `Open` BETWEEN 2615 AND 2650 
+AND `Date` >= '2010-01-01'
+ORDER BY `Date` DESC;
 ```
 --
