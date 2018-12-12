@@ -4,13 +4,13 @@
 
 ## Introduction
 
-This is a raw set of imported [daily S&P500 CSV data from Yahoo Finance](https://finance.yahoo.com/quote/%5EGSPC/history?guccounter=1) converted to MySQL and sqlite formats.  The data is daily open, close, high, low and volume since 11, December 1950.
+This is a raw set of imported [daily S&P500 CSV data from Yahoo Finance](https://finance.yahoo.com/quote/%5EGSPC/history?guccounter=1) converted to MySQL and sqlite formats.  The data is daily open, close, high, low and volume since 3, January 1950.
 
 ### Why?
 
 I wanted to fetch the S&P500 historical data for my reference.
 
-## Updating (for 2018-12-10 & future)
+## Updating
 
 1. Get the latest CSV file of results from Yahoo!
 2. Put the file in the folder 'csv', overwriting `sp500.csv`
