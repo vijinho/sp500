@@ -96,4 +96,28 @@ WHERE `Open` BETWEEN 2615 AND 2650
 AND `Date` >= '2010-01-01'
 ORDER BY `Date` DESC;
 ```
+
+### Show the frequency of days per points movement
+
+```
+SELECT ROUND(`Close` - `Open`) AS Gain, COUNT(*) AS `Days`
+FROM sp500
+WHERE 
+`DATE` > '2007-01-01 00:00:00' AND '2018-12-31 00:00:00'
+GROUP BY `Gain`
+;
+```
+
+### Show the range of points moved and frequency
+
+```
+SELECT ROUND(`High` - `Low`) AS `Range`, COUNT(*) AS `Days`
+FROM sp500
+WHERE 
+`DATE` > '2007-01-01 00:00:00' AND '2018-12-31 00:00:00'
+GROUP BY `Range`
+ORDER BY `Range`
+;
+```
+
 --
