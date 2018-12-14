@@ -62,16 +62,16 @@ DATE BETWEEN '2018-01-01' AND '2018-12-01';
 ### Get the Top-10 days with the biggest range between high and low
 
 ```
-SELECT `Date`, 
-	Volume / 1000000 Volume, 
+SELECT LEFT(`Date`,11) AS `Date`, 
+	round(Volume / 1000000) Volume, 
 	round(Low) Low, 
 	round(High) High, 
 	round(`Open`) `Open`, 
 	round(`Close`) `Close`, 
 	round(High - Low) `Range`, 
-	round(High - `Open`) Up, 
-	round(`Open` - Low) Down, 
-	round(`Open` - `Close`) Fell
+	round(High - `Open`) Max_Up, 
+	round(`Open` - Low) Max_Down, 
+	round(`Close` - `Open`) Rise_Fall
 FROM sp500 
 WHERE `Date` >= '2010-01-01'
 ORDER BY `Date` DESC
@@ -81,20 +81,18 @@ LIMIT 10;
 ### Get the previous opens in a given range
 
 ```
-SELECT `Date`, 
-	Volume / 1000000 Volume, 
+SELECT LEFT(`Date`,11) AS `Date`, 
 	round(Low) Low, 
 	round(High) High, 
 	round(`Open`) `Open`, 
 	round(`Close`) `Close`, 
 	round(High - Low) `Range`, 
-	round(High - `Open`) Up, 
-	round(`Open` - Low) Down, 
-	round(`Open` - `Close`) Fell
-FROM sp500 
-WHERE `Open` BETWEEN 2615 AND 2650 
-AND `Date` >= '2010-01-01'
-ORDER BY `Date` DESC;
+	round(High - `Open`) Max_Up, 
+	round(`Open` - Low) Max_Down, 
+	round(`Close` - `Open`) Rise_Fall
+FROM sp500
+WHERE `Open` BETWEEN 2605 AND 2645
+ORDER BY `Open` DESC;
 ```
 
 ### Show the frequency of days per points movement
