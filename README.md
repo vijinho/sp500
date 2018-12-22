@@ -45,34 +45,34 @@ select * from sp500 where date >= '2018-11-01' order by date;
 ### Get min/max open, close, low and high for date range
 
 ```
-SELECT 
-	ROUND(MIN(Low)) Lowest, 
-	ROUND(MAX(High)) Highest, 
-	ROUND(MIN(`Open`)) `Open Min`, 
-	ROUND(MIN(`Close`)) `Close Min`, 
-	ROUND(MAX(`Open`)) `Open Max`, 
+SELECT
+	ROUND(MIN(Low)) Lowest,
+	ROUND(MAX(High)) Highest,
+	ROUND(MIN(`Open`)) `Open Min`,
+	ROUND(MIN(`Close`)) `Close Min`,
+	ROUND(MAX(`Open`)) `Open Max`,
 	ROUND(MAX(`Close`)) `Close Max`,
-	ROUND(AVG(`Open`)) `Open Avg`, 
+	ROUND(AVG(`Open`)) `Open Avg`,
 	ROUND(AVG(`Close`)) `Close Avg`
-FROM sp500 
-WHERE 
+FROM sp500
+WHERE
 DATE BETWEEN '2018-01-01' AND '2018-12-01';
 ```
 
 ### Get the Top-10 days with the biggest range between high and low
 
 ```
-SELECT LEFT(`Date`,11) AS `Date`, 
-	round(Volume / 1000000) Volume, 
-	round(Low) Low, 
-	round(High) High, 
-	round(`Open`) `Open`, 
-	round(`Close`) `Close`, 
-	round(High - Low) `Range`, 
-	round(High - `Open`) Max_Up, 
-	round(`Open` - Low) Max_Down, 
+SELECT LEFT(`Date`,11) AS `Date`,
+	round(Volume / 1000000) Volume,
+	round(Low) Low,
+	round(High) High,
+	round(`Open`) `Open`,
+	round(`Close`) `Close`,
+	round(High - Low) `Range`,
+	round(High - `Open`) Max_Up,
+	round(`Open` - Low) Max_Down,
 	round(`Close` - `Open`) Rise_Fall
-FROM sp500 
+FROM sp500
 WHERE `Date` >= '2010-01-01'
 ORDER BY `Date` DESC
 LIMIT 10;
@@ -81,14 +81,14 @@ LIMIT 10;
 ### Get the previous opens in a given range
 
 ```
-SELECT LEFT(`Date`,11) AS `Date`, 
-	round(Low) Low, 
-	round(High) High, 
-	round(`Open`) `Open`, 
-	round(`Close`) `Close`, 
-	round(High - Low) `Range`, 
-	round(High - `Open`) Max_Up, 
-	round(`Open` - Low) Max_Down, 
+SELECT LEFT(`Date`,11) AS `Date`,
+	round(Low) Low,
+	round(High) High,
+	round(`Open`) `Open`,
+	round(`Close`) `Close`,
+	round(High - Low) `Range`,
+	round(High - `Open`) Max_Up,
+	round(`Open` - Low) Max_Down,
 	round(`Close` - `Open`) Rise_Fall
 FROM sp500
 WHERE `Open` BETWEEN 2605 AND 2645
@@ -100,7 +100,7 @@ ORDER BY `Open` DESC;
 ```
 SELECT ROUND(`Close` - `Open`) AS Gain, COUNT(*) AS `Days`
 FROM sp500
-WHERE 
+WHERE
 `DATE` > '2007-01-01 00:00:00' AND '2018-12-31 00:00:00'
 GROUP BY `Gain`
 ;
@@ -111,11 +111,39 @@ GROUP BY `Gain`
 ```
 SELECT ROUND(`High` - `Low`) AS `Range`, COUNT(*) AS `Days`
 FROM sp500
-WHERE 
+WHERE
 `DATE` > '2007-01-01 00:00:00' AND '2018-12-31 00:00:00'
 GROUP BY `Range`
 ORDER BY `Range`
 ;
+```
+
+### Volume (billions) and year
+
+```
+SELECT
+	YEAR(`date`) AS `Year`,
+	LEFT(`Volume`,1) `Volume (blns)`,
+	COUNT(*) AS Sessions
+FROM sp500
+WHERE Volume  > 7000000000
+GROUP BY YEAR(`date`), LEFT(Volume, 1)
+ORDER BY YEAR(`date`) DESC, `Sessions` DESC;
+```
+
+### Most points down from open price
+
+```
+SELECT LEFT(`Date`,11) AS `Date`,
+	round(Low) Low,
+	round(High) High,
+	round(`Open`) `Open`,
+	round(`Close`) `Close`,
+	round(`Open` - Low) `Most 4Points Down`,
+	round(`CLOSE` - `OPEN`) `Rise or Fall`
+FROM sp500
+WHERE `DATE` BETWEEN '2018-12-01' AND NOW()
+ORDER BY round(`Open` - Low) DESC;
 ```
 
 --

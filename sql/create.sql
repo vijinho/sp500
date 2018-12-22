@@ -8,4 +8,4 @@ CREATE TABLE `sp500` (
   `Adj Close` float unsigned NOT NULL,
   `Volume` bigint(20) unsigned NOT NULL,
   PRIMARY KEY (`id`)
-) DEFAULT CHARSET=ascii;
+) ENGINE=InnoDB DEFAULT CHARSET=ascii;
