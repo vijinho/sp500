@@ -57,6 +57,25 @@ SELECT
 FROM sp500
 WHERE
 DATE BETWEEN '2018-01-01' AND '2018-12-01';
+
+SELECT
+	LEFT(`Date`,10) `Date`,
+	DAYNAME(`Date`) AS 'Day',
+	ROUND(`Open`,2) `Open`,
+	ROUND(`Close`,2) `Close`,
+	CONCAT(
+		ROUND(`High` - `Open`),
+		'/',
+		ROUND(`Open` - `Low`),
+		'/',
+		ROUND(`Open` - `Close`)
+	) `Up/Down/Close`,
+	ROUND(`High`,2) `High`,
+	ROUND(`Low`,2) `Low`,
+	ROUND(`High` - `Low`) `Range`
+FROM sp500
+WHERE `DATE` BETWEEN '2018-01-01' AND '2018-12-31'
+ORDER BY `DATE` DESC;
 ```
 
 ### Get the Top-10 days with the biggest range between high and low
@@ -118,7 +137,7 @@ ORDER BY `Range`
 ;
 ```
 
-### Volume (billions) and year
+### Volume (billions) and year/month
 
 ```
 SELECT
@@ -129,6 +148,30 @@ FROM sp500
 WHERE Volume  > 7000000000
 GROUP BY YEAR(`date`), LEFT(Volume, 1)
 ORDER BY YEAR(`date`) DESC, `Sessions` DESC;
+
+SELECT
+	YEAR(`date`) AS `Year`,
+	MONTHNAME(`date`) AS `Month`,
+	ROUND(MAX(Volume / 1000000000),2) `Volume (Max)`,
+	ROUND(MIN(Volume / 1000000000),2) `Volume (Min)`,
+	ROUND(AVG(Volume / 1000000000),2) `Volume (Avg)`,
+	COUNT(*) AS Sessions
+FROM sp500
+WHERE Volume  > 7000000000
+GROUP BY YEAR(`Date`), MONTH(`Date`)
+ORDER BY YEAR(`DATE`) DESC, `Sessions` DESC;
+
+SELECT
+	YEAR(`date`) AS `Year`,
+	MONTHNAME(`date`) AS `Month`,
+	ROUND(MAX(Volume / 1000000000),2) `Volume (Max)`,
+	ROUND(MIN(Volume / 1000000000),2) `Volume (Min)`,
+	ROUND(AVG(Volume / 1000000000),2) `Volume (Avg)`,
+	COUNT(*) AS Sessions
+FROM sp500
+WHERE `Date` BETWEEN '2018-01-01' AND LAST_DAY(NOW())
+GROUP BY YEAR(`DATE`), MONTH(`DATE`)
+ORDER BY YEAR(`DATE`) DESC, MONTH(`DATE`) DESC, `Sessions` DESC;
 ```
 
 ### Most points down from open price
