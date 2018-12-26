@@ -182,7 +182,7 @@ SELECT LEFT(`Date`,11) AS `Date`,
 	round(High) High,
 	round(`Open`) `Open`,
 	round(`Close`) `Close`,
-	round(`Open` - Low) `Most 4Points Down`,
+	round(`Open` - Low) `Most Points Down`,
 	round(`CLOSE` - `OPEN`) `Rise or Fall`
 FROM sp500
 WHERE `DATE` BETWEEN '2018-12-01' AND NOW()
