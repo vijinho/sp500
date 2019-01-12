@@ -67,7 +67,6 @@ FROM sp500
 WHERE `Open` BETWEEN 2605 AND 2645
 ORDER BY `Open` DESC;
 
-
 ---  Show the frequency of days per points movement
 SELECT ROUND(`Close` - `Open`) AS Gain, COUNT(*) AS `Days`
 FROM sp500
@@ -235,3 +234,34 @@ OR `DATE` BETWEEN '2018-01-26' AND '2018-02-11'
 OR `DATE` BETWEEN '2018-12-01' AND NOW())
 GROUP BY FLOOR((`Open` - Low) / 10)
 ORDER BY FLOOR((`OPEN` - Low) / 10) DESC;
+
+-- points gain or lost %
+
+SELECT LEFT(`DATE`,11) AS `DATE`,
+	round(Low) Low,
+	round(High) High,
+	round(`OPEN`) `OPEN`,
+	round(`CLOSE`) `CLOSE`,
+	round(High - Low) `RANGE`,
+	round(High - `OPEN`) Max_Up,
+	round(`OPEN` - Low) Max_Down,
+	round(`CLOSE` - `OPEN`) Rise_Fall,
+	round((`CLOSE` - `OPEN`) / OPEN * 100,2) AS '%'
+FROM sp500
+ORDER BY `DATE` DESC;
+
+
+SELECT LEFT(`DATE`,11) AS `DATE`,
+	round(Low) Low,
+	round(High) High,
+	round(`OPEN`) `OPEN`,
+	round(`CLOSE`) `CLOSE`,
+	round(High - Low) `RANGE`,
+	round(High - `OPEN`) Max_Up,
+	round(`OPEN` - Low) Max_Down,
+	round(`CLOSE` - `OPEN`) Rise_Fall,
+	round((`CLOSE` - `OPEN`) / OPEN * 100,3) AS '%'
+FROM sp500
+WHERE `Date` > '2018-12-01'
+ORDER BY `%` DESC;
+LIMIT 12;
